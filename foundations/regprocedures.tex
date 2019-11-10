@@ -1,0 +1,20 @@
+\begin{Exercise}
+    Extend the notion of regularity to input/output objects of a procedure, 
+    that is, to objects that are modified as well as read.
+\end{Exercise}
+
+\begin{solution}
+    A procedure is \textit{regular} if and only if the input objects 
+    $\mathtt{a_{0}}, \dots ,\mathtt{a_{r}}$, when replaced by equal objects 
+    $\mathtt{b_{0}}, \dots, \mathtt{b_{r}}$, i.e. for each $i \in 
+    \{0, \dots, r \}$, the states $\mathtt{S_{a_{i}}} = \mathtt{S_{b_{i}}}$ are 
+    equivalent for the objects $\mathtt{a_{i}}, \mathtt{b_{i}}$ of type 
+    $\mathtt{T_i}$, yield equivalent output objects $\mathtt{c_{i}} = \mathtt{d_{i}}$ 
+    (where equality of objects means equivalence of the corresponding 
+    states). There is a natural equivalence for input/output objects 
+    in the following way: an input/output object $\mathtt{s}$ is 
+    equivalent to $\mathtt{t}$, i.e. $\mathtt{s} \equiv \mathtt{t}$, if 
+    there is a regular procedure $\mathtt{F}$ for which $\mathtt{t}$ is 
+    the output object of the input $\mathtt{s}$ under $\mathtt{F}$, or symmetrically 
+    if $\mathtt{s}$ is the output object of the input $\mathtt{t}$ under $\mathtt{F}$.
+\end{solution}
