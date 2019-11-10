@@ -5,4 +5,4 @@
 # elements-of-programming
 
 Solutions for Lemmas and Exercises in [Elements of Programming](http://elementsofprogramming.com/) by 
-Alexander Stepanov and Paul McJones, as well as C++ and Julia code implemenatations.
+Alexander Stepanov and Paul McJones, as well as C++ and Julia code implementations.
