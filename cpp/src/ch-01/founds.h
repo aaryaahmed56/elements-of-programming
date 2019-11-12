@@ -1,3 +1,6 @@
+#ifndef EOP_CH1_FOUNDATIONS
+#define EOP_CH1_FOUNDATIONS
+
 #include "../intrinsics.h"
 
 namespace EOP
@@ -16,3 +19,5 @@ struct equal
 };
 
 } // namespace EOP
+
+#endif
