@@ -1,5 +1,8 @@
 #include "../intrinsics.h"
 
+namespace EOP
+{
+
 // Variadic template struct for equality.
 // Checks pair-wise.
 template< typename _Tp, typename... Args >
@@ -11,3 +14,5 @@ struct equal
         return (x == y) && operator()(args...);
     }
 };
+
+} // namespace EOP

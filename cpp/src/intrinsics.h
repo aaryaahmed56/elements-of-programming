@@ -74,8 +74,6 @@ namespace EOP
         }
     }
 
-    
 } // namespace EOP
-
 
 #endif
