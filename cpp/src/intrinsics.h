@@ -3,7 +3,7 @@
 
 #include <new>
 
-namespace EOP
+namespace eop
 {
 
     // Template constraints
@@ -74,6 +74,6 @@ namespace EOP
         }
     }
 
-} // namespace EOP
+} // namespace eop
 
 #endif

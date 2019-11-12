@@ -3,7 +3,7 @@
 
 #include "../intrinsics.h"
 
-namespace EOP
+namespace eop
 {
 
 // Variadic template struct for equality.
@@ -18,6 +18,6 @@ struct equal
     }
 };
 
-} // namespace EOP
+} // namespace eop
 
 #endif
