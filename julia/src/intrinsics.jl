@@ -8,7 +8,7 @@
 mutable struct _Tp end
 
 # Regular Type
-mutable struct _Rp <: _Tp end
+mutable struct _Rp{_Tp} <: _Tp where _Tp end
 
 ################################################################################
 #
@@ -22,8 +22,10 @@ mutable struct _Rp <: _Tp end
     return repr(UInt64(pointer_from_objref(x)))
 end
 
-function construct(p::_Tp)
-    return p::_Tp()
+function construct(p::Tuple{Vararg{_Tp, N} where N})
+    for v in p
+        return p::_Tp()
+    end
 end
 
 function construct(p::_Rp, initializer::U) where U
