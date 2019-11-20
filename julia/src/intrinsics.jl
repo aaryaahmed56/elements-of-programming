@@ -24,7 +24,7 @@ end
 
 function construct(p::Tuple{Vararg{_Tp, N} where N})
     for v in p
-        return p::_Tp()
+        return v::_Tp()
     end
 end
 
