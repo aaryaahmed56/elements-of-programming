@@ -1,7 +1,7 @@
-#ifndef EOP_INTRINSICS
-#define EOP_INTRINSICS
+#ifndef EOP_INTRINSICS_H
+#define EOP_INTRINSICS_H
 
-#include <new>
+#include "precomp.hpp"
 
 namespace eop
 {
@@ -76,4 +76,4 @@ namespace eop
 
 } // namespace eop
 
-#endif
+#endif // !EOP_PRECOMP_H

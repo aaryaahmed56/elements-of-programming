@@ -1,7 +1,7 @@
-#ifndef EOP_CH1_FOUNDATIONS
-#define EOP_CH1_FOUNDATIONS
+#ifndef EOP_CH1_FOUNDATIONS_H
+#define EOP_CH1_FOUNDATIONS_H
 
-#include "../intrinsics.h"
+#include "../intrinsics.hpp"
 
 namespace eop
 {
@@ -20,4 +20,4 @@ struct equal
 
 } // namespace eop
 
-#endif
+#endif // !EOP_CH1_FOUNDATIONS_H
