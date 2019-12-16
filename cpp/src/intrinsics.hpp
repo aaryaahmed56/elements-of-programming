@@ -28,7 +28,7 @@ namespace eop
         for (const auto& v : p)
         {
                 // Precondition: $v$ refers to raw memory, not an object
-                // Postcondition: $v$ is in a default-constructed state
+                // Postcondition: $v$ is in a partially-formed state
             new (&v) _Tp();
         }
     }
