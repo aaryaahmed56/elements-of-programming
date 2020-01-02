@@ -2,27 +2,25 @@
 #define EOP_INTRINSICS_H
 
 #include "precomp.hpp"
+#include "concepts.hpp"
 
 namespace eop
 {
 
     // Template constraints
 
-    // This treats the requires clause as documentation only.
-    #define requires(...)
-
     #define pointer(_Tp) _Tp*
 
     // Return addresses.
-    template< typename _Tp >
+    template< Pointer _Tp >
     pointer(_Tp) address_of(_Tp& x)
     {
         return &x;
     }
 
     // In-place construction and destruction.
-    template < template< typename, typename... > class ContainerType,
-               typename _Tp, typename... Args >
+    template < template< Regular, Regular... > class ContainerType,
+               Regular _Tp, Regular... Args >
     void construct(const ContainerType<_Tp, Args...>& p)
     {
         for (const auto& v : p)
@@ -34,8 +32,7 @@ namespace eop
     }
 
     template < template< typename, typename... > class ContainerType,
-               typename _Tp, typename... Args, typename U >
-        requires(Regular(_Tp) && Constructible(_Tp, U))
+               Regular _Tp, Regular... Args, Constructible U >
     void construct(const ContainerType<_Tp, Args...>& p, const U& initializer)
     {
         for (const auto& v : p)
@@ -47,9 +44,8 @@ namespace eop
         }
     }
 
-    template < template< typename, typename... > class ContainerType,
-               typename _Tp, typename... Args >
-        requires(Regular(_Tp))
+    template < template< Regular, Regular... > class ContainerType,
+               Regular _Tp, Regular... Args >
     void destruct(const ContainerType<_Tp, Args...>& p)
     {
         for (const auto& v : p)
@@ -60,9 +56,8 @@ namespace eop
         }
     }
 
-    template< template< typename, typename... > class ContainerType,
-              typename _Tp, typename... Args, typename U >
-        requires(Regular(_Tp))
+    template< template< Regular, Regular... > class ContainerType,
+              Regular _Tp, Regular... Args, typename U >
     void destruct(const ContainerType<_Tp, Args...>& p, U& finalizer)
     {
         for (const auto& v : p)
