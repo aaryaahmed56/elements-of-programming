@@ -1,15 +1,13 @@
 #ifndef EOP_INTRINSICS_H
 #define EOP_INTRINSICS_H
 
-#include "precomp.hpp"
 #include "concepts.hpp"
 
 namespace eop
 {
-
     // Template constraints
-
     #define pointer(_Tp) _Tp*
+    #define unique_pointer(_Tp) std::unique_ptr<_Tp>
 
     // Return addresses.
     template< Pointer _Tp >
@@ -17,10 +15,15 @@ namespace eop
     {
         return &x;
     }
+    
+    template< Pointer _Tp >
+    unique_pointer(_Tp) address_of(_Tp& x)
+    {
+        return &x;
+    }
 
-    // In-place construction and destruction.
-    template < template< Regular, Regular... > class ContainerType,
-               Regular _Tp, Regular... Args >
+    template < template< typename, typename... > class ContainerType,
+               Constructible _Tp, Constructible... Args >
     void construct(const ContainerType<_Tp, Args...>& p)
     {
         for (const auto& v : p)
@@ -32,7 +35,7 @@ namespace eop
     }
 
     template < template< typename, typename... > class ContainerType,
-               Regular _Tp, Regular... Args, Constructible U >
+               Constructible _Tp, Constructible... Args, Constructible U >
     void construct(const ContainerType<_Tp, Args...>& p, const U& initializer)
     {
         for (const auto& v : p)
@@ -44,8 +47,8 @@ namespace eop
         }
     }
 
-    template < template< Regular, Regular... > class ContainerType,
-               Regular _Tp, Regular... Args >
+    template < template< typename, typename... > class ContainerType,
+               Destructible _Tp, Destructible... Args >
     void destruct(const ContainerType<_Tp, Args...>& p)
     {
         for (const auto& v : p)
@@ -56,8 +59,8 @@ namespace eop
         }
     }
 
-    template< template< Regular, Regular... > class ContainerType,
-              Regular _Tp, Regular... Args, typename U >
+    template< template< typename, typename... > class ContainerType,
+              Destructible _Tp, Destructible... Args, Destructible U >
     void destruct(const ContainerType<_Tp, Args...>& p, U& finalizer)
     {
         for (const auto& v : p)
