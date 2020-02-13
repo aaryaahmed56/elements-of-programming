@@ -20,11 +20,9 @@ namespace eop
     // A type that is constructible and destructible,
     // copyable, movable, and assignable
     #define Semiregular typename
-    
+
     // A semiregular type with an equality semantic
     #define Regular typename
-
-    #define Linear
 
     /**
      * @brief Pointers, either
@@ -58,6 +56,12 @@ namespace eop
     #define BidirectionalIterator typename
     #define RandomAccessIterator typename
 
+    /**
+     * @brief Aliases for types
+     * 
+     * @tparam C -- A container
+     * @tparam I -- An iterator
+     */
     template< Container C >
     using SizeType = typename C::size_type;
 
