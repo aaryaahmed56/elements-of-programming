@@ -6,8 +6,8 @@
 namespace eop
 {
     /**
-     * @brief Primitive concepts for
-     * type construction and destruction
+     * @brief Primitive semantic requirements for 
+     * type construction, destruction, and assignment
      * 
      */
     #define Constructible typename
@@ -17,11 +17,18 @@ namespace eop
     #define CopyAssignable typename
     #define MoveAssignable typename
 
-    // A type that is constructible and destructible,
-    // copyable, movable, and assignable
+    /**
+     * @brief A type satisfying all primitive
+     * semantic requirements above
+     * 
+     */
     #define Semiregular typename
 
-    // A semiregular type with an equality semantic
+    /**
+     * @brief A semiregular type with an equality
+     * semantic
+     * 
+     */
     #define Regular typename
 
     /**
