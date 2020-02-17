@@ -13,28 +13,31 @@ namespace eop
     #define unique_pointer(_Tp) std::unique_ptr<_Tp>
 
     /**
-     * @brief Address method for raw
+     * @brief Address method to construct a raw
      * pointers
      * 
      * @tparam _Tp An arbitrary type from which a
      * pointer type is constructed
      */
     template< typename _Tp >
-    pointer(_Tp) address_of(_Tp& x)
+    pointer(_Tp) address_of(_Tp&& x)
     {
         return &x;
     }
 
     /**
-     * @brief Address method for a unique pointer
+     * @brief Forwarding method to construct
+     * a unique pointer
      * 
-     * @tparam _Tp An arbitrary type from which a
+     * @tparam _Tp An arbitrary type from which a 
      * pointer type is constructed
+     * @tparam Args Arguments that are passed by 
+     * rvalue reference to a constructor
      */
-    template< typename _Tp >
-    unique_pointer(_Tp) address_of(_Tp& x)
+    template< typename _Tp, typename... Args >
+    unique_pointer(_Tp) address_of(Args&&... args)
     {
-        return &x;
+        return unique_pointer(_Tp)(new _Tp(std::forward<Args>(args)...));
     }
 
     /**
