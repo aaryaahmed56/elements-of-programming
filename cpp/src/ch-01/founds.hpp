@@ -17,7 +17,7 @@ struct copy_constructor
 {
     void operator()(const _Tp0& x, const _Tp1& y)
     {
-        new(std::addressof(x)) _Tp0(y);
+        new(address_of(x)) _Tp0(y);
     }
 };
 
@@ -26,7 +26,7 @@ struct move_constructor
 {
     void operator()(_Tp0&& x, _Tp1&& y)
     {
-        new(std::addressof(x)) _Tp0(std::move_if_noexcept(y));
+        new(address_of(x)) _Tp0(std::move_if_noexcept(y));
     }
 };
 
