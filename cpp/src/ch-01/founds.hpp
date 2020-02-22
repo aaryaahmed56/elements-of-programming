@@ -2,7 +2,6 @@
 #define EOP_CH1_FOUNDATIONS_H
 
 #include "../intrinsics.hpp"
-#include "../concepts.hpp"
 
 namespace eop
 {
