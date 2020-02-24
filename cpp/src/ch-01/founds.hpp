@@ -25,7 +25,7 @@ struct move_constructor
 {
     void operator()(_Tp0&& x, _Tp1&& y)
     {
-        new(address_of(x)) _Tp0(std::move_if_noexcept(y));
+        new(address_of(x)) _Tp0(std::move(y));
     }
 };
 
@@ -49,7 +49,7 @@ struct move_assignment
 {
     void operator()(_Tp0&& x, _Tp1&& y)
     {
-        x = std::move_if_noexcept(y);
+        x = std::move(y);
     }
 };
 
@@ -94,7 +94,6 @@ struct equal<_Tp>
         return x == y;
     }
 };
-
 } // namespace eop
 
 #endif // !EOP_CH1_FOUNDATIONS_H

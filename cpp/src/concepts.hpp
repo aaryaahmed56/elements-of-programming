@@ -13,31 +13,140 @@ namespace eop
     #define Constructible typename
     #define Destructible typename
     #define CopyConstructible typename
-    #define MoveConstructible typename
     #define CopyAssignable typename
+    #define MoveConstructible typename
     #define MoveAssignable typename
 
     /**
-     * @brief A type satisfying all primitive
-     * semantic requirements above
+     * @brief Types for pointers, either
+     * raw or smart, which are type
+     * constructors
+     * 
+     */
+    #define Pointer typename
+    #define UniquePointer typename
+
+    /**
+     * @brief Concept for linear/substructural types
+     * 
+     * Linear = MoveConstructible + MoveAssignable
+     * 
+     * A unique pointer is "almost" a linear type in 
+     * that it is move assignable but not copy assignable.
+     * 
+     */
+    #define Linear typename
+    
+    /**
+     * @brief Naive implementation for nothrow
+     * convertible type checking
+     * 
+     * @tparam From 
+     * @tparam To 
+     */
+    template< class From, class To >
+    struct is_nothrow_convertible : std::conjunction<std::is_void<From>, std::is_void<To>> {};
+    
+    /**
+     * @brief Variable helper method for nothrow
+     * convertibility
+     * 
+     * @tparam From 
+     * @tparam To 
+     */
+    template< class From, class To >
+    inline
+    constexpr
+    bool is_nothrow_convertible_v = is_nothrow_convertible<From, To>::value;
+
+    /**
+     * @brief 
+     * 
+     * @tparam T 
+     * @tparam U 
+     */
+    template< typename T, typename U >
+    inline
+    constexpr
+    bool linear_usable_as_v =
+        std::is_nothrow_constructible_v<T, U> and
+        std::is_nothrow_assignable_v<T&, U> and
+        eop::is_nothrow_convertible_v<T, U>;
+
+    /**
+     * @brief 
+     * 
+     * @tparam T 
+     * @tparam U 
+     */
+    template< typename T, typename U >
+    inline
+    constexpr
+    bool linear_unusable_as_v =
+        not std::is_constructible_v<T, U> and
+        not std::is_assignable_v<T&, U> and
+        not std::is_convertible_v<T, U>;
+
+    /**
+     * @brief Wrapper object around a linear type
+     * 
+     * @tparam T A Linear Type
+     */
+    template< Linear T >
+    class linear
+    {
+    private:
+        T _val;
+
+    public:
+        linear(T&& value) : _val(std::move(value)) {}
+
+        // Remove copy construction and assignment
+        linear(const linear&) = delete;
+        linear &operator=(const linear&) = delete;
+
+        linear(linear&&) = default;
+        linear &operator=(linear&&) = default;
+
+        [[nodiscard]]
+        T&& get(T&& value) && noexcept
+        {
+            return std::move(value);
+        }
+
+        [[nodiscard]]
+        T&& operator*(T&& value) noexcept
+        {
+            return std::move(value);
+        }
+    };
+
+    /**
+     * @brief Concept for semiregular types
+     * 
+     * Semiregular = Constructible + Destructible
+     * + CopyConstructible + CopyAssignable + MoveConstructible
+     * + MoveAssignable
      * 
      */
     #define Semiregular typename
 
     /**
-     * @brief A semiregular type with an equality
-     * semantic
+     * @brief Concept for types with an
+     * Equality semantic
+     * 
+     */
+    #define Equality typename
+
+    /**
+     * @brief Concept for regular types
+     * 
+     * Regular = Semiregular + Equality
      * 
      */
     #define Regular typename
 
-    /**
-     * @brief Pointers, either
-     * raw or smart
-     * 
-     */
-    #define Pointer typename
-    #define UniquePointer typename
+
 
     /**
      * @brief Operations of specified
@@ -66,8 +175,8 @@ namespace eop
     /**
      * @brief Aliases for types
      * 
-     * @tparam C -- A container
-     * @tparam I -- An iterator
+     * @tparam C A container
+     * @tparam I An iterator
      */
     template< Container C >
     using SizeType = typename C::size_type;
