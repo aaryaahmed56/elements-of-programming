@@ -69,8 +69,8 @@ namespace eop
     inline
     constexpr
     bool linear_usable_as_v =
-        std::is_nothrow_constructible_v<T, U> and
-        std::is_nothrow_assignable_v<T&, U> and
+        std::is_nothrow_constructible_v<T, U> &&
+        std::is_nothrow_assignable_v<T&, U> &&
         eop::is_nothrow_convertible_v<T, U>;
 
     /**
@@ -83,9 +83,9 @@ namespace eop
     inline
     constexpr
     bool linear_unusable_as_v =
-        not std::is_constructible_v<T, U> and
-        not std::is_assignable_v<T&, U> and
-        not std::is_convertible_v<T, U>;
+        !(std::is_constructible_v<T, U> ||
+        std::is_assignable_v<T&, U> ||
+        std::is_convertible_v<T, U>);
 
     /**
      * @brief Wrapper object around a linear type
