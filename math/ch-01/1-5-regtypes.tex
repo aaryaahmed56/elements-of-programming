@@ -3,12 +3,12 @@
 \end{Lemma}
 
 \begin{solution}
-    Suppose $\mathtt{a}$ is an object that is well-formed. Let $\mathtt{S_{a}}$ 
+    Suppose $\mathtt{a}$ is an object that is well-formed. Let $\mathtt{S(a)}$ 
     be the state of $\mathtt{a}$, which by definition is a value $\mathtt{v : T}$ of 
-    some value type $\mathtt{T}$. By well-formedness of $\mathtt{a}$, $\mathtt{S_{a}}$ is 
+    some value type $\mathtt{T}$. By well-formedness of $\mathtt{a}$, $\mathtt{S(a)}$ is 
     also well-formed as a value, i.e. WLOG, we may reduce to the case where 
     $\mathtt{T}$ is $\mathtt{double}$ as an object type for $\mathtt{a}$. Let $\mathtt{b}$ 
     be another object of type $\mathtt{double}$. Certainly $\mathtt{a}$ may be assigned to 
-    $\mathtt{b}$ without modifying the state $\mathtt{S_{b}}$ of $\mathtt{b}$, and 
-    $\mathtt{a}$ may be destructed as well. Therefore $\mathtt{a}$ is partially formed.
+    $\mathtt{b}$ without modifying the state $\mathtt{S(b)}$ of $\mathtt{b}$, and 
+    $\mathtt{a}$ may be destroyed as well. Therefore $\mathtt{a}$ is partially formed.
 \end{solution}

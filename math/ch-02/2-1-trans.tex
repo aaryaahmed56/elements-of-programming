@@ -1,0 +1,19 @@
+\begin{Lemma}
+    $\mathtt{euclidean\_norm(x, y, z) = euclidean\_norm(euclidean\_norm(x, y), z)}$
+\end{Lemma}
+
+\begin{solution}
+    $\mathtt{euclidean\_norm(x, y, z)}$ is a ternary operation with the signature
+    $$\mathtt{euclidean\_norm :: double \times double \times double \rightarrow double}$$
+    With currying, the signature becomes
+    $$\mathtt{euclidean\_norm :: double \rightarrow double \rightarrow double \rightarrow double}$$
+    which clearly associates to
+    $$\mathtt{euclidean\_norm :: \left(double \rightarrow double \rightarrow double\right) \rightarrow double}$$.
+
+    Now, one can un-curry the parenthesized to obtain
+    $$\mathtt{euclidean\_norm :: \left(double \times double \rightarrow double\right) \rightarrow double}$$
+
+    Where, now, the parenthesized is simply the binary operation $\mathtt{euclidean\_norm(x, y)}$, which in this case
+    can be taken as a partial evaluation of the function $\mathtt{euclidean\_norm(x,y,z)}$ to the arguments
+    $\mathtt{x, y}$. So it is possible to "build" a ternary operation from a binary operation.
+\end{solution}
