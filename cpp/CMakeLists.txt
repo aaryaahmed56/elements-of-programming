@@ -7,7 +7,7 @@ enable_testing()
 add_library(eop INTERFACE)
 
 target_include_directories(eop INTERFACE
-                           "$<BUILD_INTERFACE: ${CMAKE_CURRENT_SOURCE_DIR}/src>"
+                           "$<BUILD_INTERFACE: ${CMAKE_CURRENT_SOURCE_DIR}/eop>"
                            "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
 
 list(APPEND headers "${CMAKE_CURRENT_SOURCE_DIR}/src/concepts.hpp"
