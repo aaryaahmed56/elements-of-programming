@@ -10,12 +10,12 @@ namespace eop
      * type construction, destruction, and assignment
      * 
      */
-    #define Constructible typename
-    #define Destructible typename
-    #define CopyConstructible typename
-    #define CopyAssignable typename
-    #define MoveConstructible typename
-    #define MoveAssignable typename
+    #define constructible typename
+    #define destructible typename
+    #define copy_constructible typename
+    #define copy_assignable typename
+    #define move_constructible typename
+    #define move_assignable typename
 
     /**
      * @brief Types for pointers, either
@@ -23,19 +23,19 @@ namespace eop
      * constructors
      * 
      */
-    #define Pointer typename
-    #define UniquePointer typename
+    #define pointer typename
+    #define unique_pointer typename
 
     /**
      * @brief Concept for linear/substructural types
      * 
-     * Linear = MoveConstructible + MoveAssignable
+     * linear = move_constructible + move_assignable
      * 
      * A unique pointer is "almost" a linear type in 
      * that it is move assignable but not copy assignable.
      * 
      */
-    #define Linear typename
+    #define linear typename
     
     /**
      * @brief Naive implementation for nothrow
@@ -90,23 +90,23 @@ namespace eop
     /**
      * @brief Wrapper object around a linear type
      * 
-     * @tparam T A Linear Type
+     * @tparam T A linear Type
      */
-    template< Linear T >
-    class linear
+    template< linear T >
+    class linear_wrapper
     {
     private:
         T _val;
 
     public:
-        linear(T&& value) : _val(std::move(value)) {}
+        linear_wrapper(T&& value) : _val(std::move(value)) {}
 
         // Remove copy construction and assignment
-        linear(const linear&) = delete;
-        linear &operator=(const linear&) = delete;
+        linear_wrapper(const linear_wrapper&) = delete;
+        linear_wrapper &operator=(const linear_wrapper&) = delete;
 
-        linear(linear&&) = default;
-        linear &operator=(linear&&) = default;
+        linear_wrapper(linear_wrapper&&) = default;
+        linear_wrapper &operator=(linear_wrapper&&) = default;
 
         [[nodiscard]]
         T&& get(T&& value) && noexcept
@@ -124,27 +124,27 @@ namespace eop
     /**
      * @brief Concept for semiregular types
      * 
-     * Semiregular = Constructible + Destructible
-     * + CopyConstructible + CopyAssignable + MoveConstructible
-     * + MoveAssignable
+     * semiregular = constructible + destructible
+     * + copy_constructible + copy_assignable + move_constructible
+     * + move_assignable
      * 
      */
-    #define Semiregular typename
+    #define semiregular typename
 
     /**
      * @brief Concept for types with an
-     * Equality semantic
+     * equality semantic
      * 
      */
-    #define Equality typename
+    #define equality typename
 
     /**
      * @brief Concept for regular types
      * 
-     * Regular = Semiregular + Equality
+     * regular = semiregular + equality
      * 
      */
-    #define Regular typename
+    #define regular typename
 
 
 
@@ -163,14 +163,14 @@ namespace eop
      * iterators, and containers
      *
      */
-    #define Container typename
-    #define LinearStructure typename
-    #define CoordinateStructure typename
-    #define Iterator typename
-    #define ForwardIterator typename
-    #define ReverseIterator typename
-    #define BidirectionalIterator typename
-    #define RandomAccessIterator typename
+    #define container typename
+    #define linear_structure typename
+    #define coordinate_structure typename
+    #define iterator typename
+    #define forward_iterator typename
+    #define reverse_iterator typename
+    #define bidirectional_iterator typename
+    #define random_access_iterator typename
 
     /**
      * @brief Aliases for types
@@ -178,17 +178,17 @@ namespace eop
      * @tparam C A container
      * @tparam I An iterator
      */
-    template< Container C >
-    using SizeType = typename C::size_type;
+    template< container C >
+    using size_type = typename C::size_type;
 
-    template< Container C >
-    using ValueType = typename C::value_type;
+    template< container C >
+    using value_type = typename C::value_type;
     
-    template< Iterator I >
-    using IteratorValueType = typename std::iterator_traits<I>::value_type;
+    template< iterator I >
+    using iterator_value_type = typename std::iterator_traits<I>::value_type;
 
-    template< Iterator I >
-    using IteratorDifferenceType = typename std::iterator_traits<I>::difference_type;
+    template< iterator I >
+    using iterator_difference_type = typename std::iterator_traits<I>::difference_type;
 } // namespace eop
 
 #endif // !EOP_CONCEPTS_HPP

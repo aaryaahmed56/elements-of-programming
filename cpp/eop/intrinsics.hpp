@@ -53,7 +53,7 @@ namespace eop
      * @param p The container, passed by constant lvalue reference
      */
     template < template< typename, typename... > class ContainerType,
-               Constructible _Tp, Constructible... Args >
+               constructible _Tp, constructible... Args >
     void construct(const ContainerType<_Tp, Args...>& p)
     {
         for (const auto& v : p)
@@ -81,7 +81,7 @@ namespace eop
      * reference
      */
     template < template< typename, typename... > class ContainerType,
-               Constructible _Tp, Constructible... Args, Constructible U >
+               constructible _Tp, constructible... Args, constructible U >
     void construct(const ContainerType<_Tp, Args...>& p, const U& initializer)
     {
         for (const auto& v : p)
@@ -103,7 +103,7 @@ namespace eop
      * @param p The container, passed by constant lvalue reference
      */
     template < template< typename, typename... > class ContainerType,
-               Destructible _Tp, Destructible... Args >
+               destructible _Tp, destructible... Args >
     void destruct(const ContainerType<_Tp, Args...>& p)
     {
         for (const auto& v : p)
@@ -129,7 +129,7 @@ namespace eop
      * @param finalizer The finalizer, passed by lvalue reference
      */
     template< template< typename, typename... > class ContainerType,
-              Destructible _Tp, Destructible... Args, Destructible U >
+              destructible _Tp, destructible... Args, destructible U >
     void destruct(const ContainerType<_Tp, Args...>& p, U& finalizer)
     {
         for (const auto& v : p)
