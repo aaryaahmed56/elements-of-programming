@@ -153,10 +153,10 @@ namespace eop
      * or general arity
      * 
      */
-    #define NullaryOperation typename
-    #define UnaryOperation typename
-    #define BinaryOperation typename
-    #define NaryOperation typename
+    #define nullary_operation typename
+    #define unary_operation typename
+    #define binary_operation typename
+    #define n_ary_operation typename
 
     /**
      * @brief Models for data structures,
