@@ -4,15 +4,17 @@
 
 \begin{solution}
     $\mathtt{euclidean\_norm(x, y, z)}$ is a ternary operation with the signature
-    $$\mathtt{euclidean\_norm :: double \times double \times double \rightarrow double}$$
-    With currying, the signature becomes
-    $$\mathtt{euclidean\_norm :: double \rightarrow double \rightarrow double \rightarrow double}$$
+    $$\mathtt{euclidean\_norm :: T \times T \times T \rightarrow T}$$
+    where $\mathtt{T}$ is well-formed as an object type, i.e. $\mathtt{T}$ is either an integral or floating
+    point type. After currying, the signature becomes
+    $$\mathtt{euclidean\_norm :: T \rightarrow T \rightarrow T \rightarrow T}$$
     which clearly associates to
-    $$\mathtt{euclidean\_norm :: \left(double \rightarrow double \rightarrow double\right) \rightarrow double}$$
+    $$\mathtt{euclidean\_norm :: T \rightarrow \left(T \rightarrow T \rightarrow T\right)}$$
 
     Now, one can un-curry the parenthesized to obtain
-    $$\mathtt{euclidean\_norm :: \left(double \times double \rightarrow double\right) \rightarrow double}$$
-    Where, now, the parenthesized is simply the binary operation $\mathtt{euclidean\_norm(x, y)}$, which in this case
-    can be taken as a partial application of the function $\mathtt{euclidean\_norm(x,y,z)}$ to the arguments
-    $\mathtt{x, y}$. So it is possible to "build" a ternary operation from a binary operation.
+    $$\mathtt{euclidean\_norm :: T \rightarrow \left(T \times T \rightarrow T\right)}$$
+    Where, now, the parenthesized is simply the binary operation $\mathtt{euclidean\_norm(x, y)}$, which may
+    be taken as a partial application of the function $\mathtt{euclidean\_norm(x,y,z)}$ to the arguments
+    $\mathtt{x, y}$, upon which one can then apply the third argument $\mathtt{z}$ to obtain the Euclidean norm
+    of all three. So it is possible to "build" a ternary operation from a binary operation.
 \end{solution}
