@@ -4,7 +4,9 @@
 // #include <concepts> -- When it's here.
 #include <new>
 #include <iterator>
+#include <math.h>
 #include <type_traits>
+#include <functional>
 #include <memory>
 #include <utility>
 #include <vector>

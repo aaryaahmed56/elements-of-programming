@@ -6,41 +6,6 @@
 namespace eop
 {
     /**
-     * @brief Prefix notation for pointers
-     * 
-     */
-    #define pointer(_Tp) _Tp*
-    #define unique_pointer(_Tp) std::unique_ptr<_Tp>
-
-    /**
-     * @brief Address method to construct a raw
-     * pointers
-     * 
-     * @tparam _Tp An arbitrary type from which a
-     * pointer type is constructed
-     */
-    template< typename _Tp >
-    pointer(_Tp) address_of(_Tp&& x)
-    {
-        return &x;
-    }
-
-    /**
-     * @brief Forwarding method to construct
-     * a unique pointer
-     * 
-     * @tparam _Tp An arbitrary type from which a 
-     * pointer type is constructed
-     * @tparam Args Arguments that are passed by 
-     * rvalue reference to a constructor
-     */
-    template< typename _Tp, typename... Args >
-    unique_pointer(_Tp) address_of(Args&&... args)
-    {
-        return unique_pointer(_Tp)(new _Tp(std::forward<Args>(args)...));
-    }
-
-    /**
      * @brief Method for construction
      * 
      * Precondition: $v$ refers to raw memory, not an object
@@ -56,6 +21,8 @@ namespace eop
                constructible _Tp, constructible... Args >
     void construct(const ContainerType<_Tp, Args...>& p)
     {
+        static_assert(std::is_constructible_v<_Tp>
+            && std::is_constructible_v<Args...>);
         for (const auto& v : p)
         {
             new (&v) _Tp();
@@ -84,6 +51,8 @@ namespace eop
                constructible _Tp, constructible... Args, constructible U >
     void construct(const ContainerType<_Tp, Args...>& p, const U& initializer)
     {
+        static_assert(std::is_constructible_v<_Tp>
+            && std::is_constructible_v<Args...>);
         for (const auto& v : p)
         {
             new (&v) _Tp(initializer);
@@ -106,6 +75,8 @@ namespace eop
                destructible _Tp, destructible... Args >
     void destruct(const ContainerType<_Tp, Args...>& p)
     {
+        static_assert(std::is_destructible_v<_Tp>
+            && std::is_destructible_v<Args...>);
         for (const auto& v : p)
         {
             v.~_Tp();
@@ -132,10 +103,64 @@ namespace eop
               destructible _Tp, destructible... Args, destructible U >
     void destruct(const ContainerType<_Tp, Args...>& p, U& finalizer)
     {
+        static_assert(std::is_destructible_v<_Tp>
+            && std::is_destructible_v<Args...>);
         for (const auto& v : p)
         {
             destruct(v);
         }
+    }
+
+    /**
+     * @brief Prefix notation for a raw pointer
+     * 
+     */
+    template< typename _Tp >
+    using raw_ptr = _Tp*;
+
+    /**
+     * @brief Address method to construct a raw
+     * pointer from a memory location
+     * 
+     * @tparam _Tp A partially formed object type from 
+     * which a pointer type is constructed
+     */
+    template< partially_formed _Tp >
+    eop::raw_ptr<_Tp> ptr_construct(_Tp&& x)
+    {
+        return &x;
+    }
+
+    /**
+     * @brief Forwarding method to construct a unique
+     * pointer
+     * 
+     * @tparam _Tp An arbitrary type from which a unique
+     * pointer is constructed
+     * @tparam Args Argument types
+     * @param args Arguments
+     * @return std::unique_ptr<_Tp> 
+     */
+    template< partially_formed _Tp, typename... Args >
+    std::unique_ptr<_Tp> ptr_construct(Args&&... args)
+    {
+        return std::unique_ptr<_Tp>(construct(_Tp(std::forward<Args>(args)...)));
+    }
+
+    /**
+     * @brief Forwarding method to construct a shared
+     * pointer
+     * 
+     * @tparam _Tp An arbitrary type from which a shared
+     * pointer is constructed
+     * @tparam Args Argument types
+     * @param args Arguments
+     * @return std::shared_ptr<_Tp> 
+     */
+    template< typename _Tp, typename... Args >
+    std::shared_ptr<_Tp> ptr_construct(Args&&... args)
+    {
+        return std::shared_ptr<_Tp>(construct(_Tp(std::forward<Args>(args)...)));
     }
 } // namespace eop
 

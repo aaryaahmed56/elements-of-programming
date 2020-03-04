@@ -18,13 +18,22 @@ namespace eop
     #define move_assignable typename
 
     /**
-     * @brief Types for pointers, either
-     * raw or smart, which are type
-     * constructors
+     * @brief Concept for an object type of
+     * a partially-formed object
+     * 
+     * partially_formed = move_assignable + destructible
      * 
      */
-    #define pointer typename
-    #define unique_pointer typename
+    #define partially_formed typename
+    
+    /**
+     * @brief Concept for an object type of
+     * a well-formed object
+     * 
+     * well_formed = partially_formed + ...
+     * 
+     */
+    #define well_formed typename
 
     /**
      * @brief Concept for linear/substructural types
@@ -137,7 +146,7 @@ namespace eop
      * 
      */
     #define equality typename
-
+    
     /**
      * @brief Concept for regular types
      * 
@@ -146,17 +155,19 @@ namespace eop
      */
     #define regular typename
 
-
-
     /**
-     * @brief Operations of specified
-     * or general arity
+     * @brief Operations and (homogeneous) predicates
+     * of specified or general arity
      * 
      */
     #define nullary_operation typename
+    #define nullary_predicate typename
     #define unary_operation typename
+    #define unary_predicate typename
     #define binary_operation typename
+    #define binary_predicate typename
     #define n_ary_operation typename
+    #define n_ary_predicate typename
 
     /**
      * @brief Models for data structures,
