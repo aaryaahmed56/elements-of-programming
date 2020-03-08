@@ -29,7 +29,7 @@ namespace eop
      * @tparam Args Other well-formed object types
      */
     template< well_formed _Tp,
-              unsigned arity,
+              const unsigned arity,
               well_formed... Args >
     struct euclidean_norm
     {
