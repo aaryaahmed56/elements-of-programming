@@ -21,8 +21,8 @@ namespace eop
                constructible _Tp, constructible... Args >
     void construct(const ContainerType<_Tp, Args...>& p)
     {
-        static_assert(std::is_constructible<_Tp>::value
-            && std::is_constructible<Args...>::value);
+        static_assert(std::is_constructible_v<_Tp>
+            && std::is_constructible_v<Args...>);
         for (const auto& v : p)
         {
             new (&v) _Tp();
@@ -51,8 +51,8 @@ namespace eop
                constructible _Tp, constructible... Args, constructible U >
     void construct(const ContainerType<_Tp, Args...>& p, const U& initializer)
     {
-        static_assert(std::is_trivially_constructible<_Tp>::value
-            && std::is_constructible<Args...>::value);
+        static_assert(std::is_constructible_v<_Tp>
+            && std::is_constructible_v<Args...>);
         for (const auto& v : p)
         {
             new (&v) _Tp(initializer);
@@ -75,8 +75,8 @@ namespace eop
                destructible _Tp, destructible... Args >
     void destruct(const ContainerType<_Tp, Args...>& p)
     {
-        static_assert(std::is_destructible<_Tp>::value
-            && std::is_destructible<Args...>::value);
+        static_assert(std::is_destructible_v<_Tp>
+            && std::is_destructible_v<Args...>);
         for (const auto& v : p)
         {
             v.~_Tp();
@@ -103,8 +103,8 @@ namespace eop
               destructible _Tp, destructible... Args, destructible U >
     void destruct(const ContainerType<_Tp, Args...>& p, U& finalizer)
     {
-        static_assert(std::is_destructible<_Tp>::value
-            && std::is_destructible<Args...>::value);
+        static_assert(std::is_destructible_v<_Tp>
+            && std::is_destructible_v<Args...>);
         for (const auto& v : p)
         {
             destruct(v);
@@ -141,7 +141,7 @@ namespace eop
      * @param args Arguments
      * @return std::unique_ptr<_Tp> 
      */
-    template< partially_formed _Tp, typename... Args >
+    template< partially_formed _Tp, partially_formed... Args >
     std::unique_ptr<_Tp> ptr_construct(Args&&... args)
     {
         return std::unique_ptr<_Tp>(construct(_Tp(std::forward<Args>(args)...)));
@@ -157,7 +157,7 @@ namespace eop
      * @param args Arguments
      * @return std::shared_ptr<_Tp> 
      */
-    template< typename _Tp, typename... Args >
+    template< partially_formed _Tp, partially_formed... Args >
     std::shared_ptr<_Tp> ptr_construct(Args&&... args)
     {
         return std::shared_ptr<_Tp>(construct(_Tp(std::forward<Args>(args)...)));
