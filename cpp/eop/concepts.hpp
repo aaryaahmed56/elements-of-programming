@@ -144,7 +144,7 @@ namespace eop
      * equality comparability semantic
      * 
      */
-    #define equality typename
+    #define equality_comparable typename
     template< class _Tp, class=void >
     struct is_equality_comparable : std::false_type{};
     template< class _Tp>

@@ -70,29 +70,35 @@ namespace eop
      * default as _Tp0
      * @tparam Args Other types with an equality semantic
      */
-    template< equality _Tp0,
-              equality _Tp1 = _Tp0,
-              equality... Args >
+    template< equality_comparable _Tp0,
+              equality_comparable _Tp1 = _Tp0,
+              equality_comparable... Args >
     struct equal
     {
         inline
         bool operator()(const _Tp0& x, const _Tp0& y, const Args&&... args) const noexcept
         {
+            static_assert(eop::is_equality_comparable_v<_Tp0>);
             return (x == y) && operator()(args...);
         }
         inline
         bool operator()(const _Tp0& x, const _Tp1& y, const Args&&... args) const noexcept
         {
+            static_assert(eop::is_equality_comparable_v<_Tp0>
+                && eop::is_equality_comparable_v<_Tp1>);
             return (x == y) && operator()(args...);
         }
         inline
         bool operator()(const _Tp1& x, const _Tp0& y, const Args&&... args) const noexcept
         {
+            static_assert(eop::is_equality_comparable_v<_Tp0>
+                && eop::is_equality_comparable_v<_Tp1>);
             return (x == y) && operator()(args...);
         }
         inline
         bool operator()(const _Tp1& x, const _Tp1& y, const Args&&... args) const noexcept
         {
+            static_assert(eop::is_equality_comparable_v<_Tp1>);
             return (x == y) && operator()(args...);
         }
     };
@@ -102,12 +108,13 @@ namespace eop
      * 
      * @tparam _Tp A type with an equality semantic
      */
-    template< equality _Tp >
+    template< equality_comparable _Tp >
     struct equal<_Tp>
     {
         inline
         bool operator()(const _Tp& x, const _Tp& y) const noexcept
         {
+            static_assert(eop::is_equality_comparable_v<_Tp>);
             return x == y;
         }
     };
