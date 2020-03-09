@@ -68,33 +68,21 @@ namespace eop
     constexpr
     bool is_nothrow_convertible_v = is_nothrow_convertible<From, To>::value;
 
-    /**
-     * @brief 
-     * 
-     * @tparam T 
-     * @tparam U 
-     */
-    template< typename T, typename U >
+    template< class _Tp, class U >
     inline
     constexpr
     bool linear_usable_as_v =
-        std::is_nothrow_constructible_v<T, U> &&
-        std::is_nothrow_assignable_v<T&, U> &&
-        eop::is_nothrow_convertible_v<T, U>;
+        std::is_nothrow_constructible_v<_Tp, U> &&
+        std::is_nothrow_assignable_v<_Tp&, U> &&
+        eop::is_nothrow_convertible_v<_Tp, U>;
 
-    /**
-     * @brief 
-     * 
-     * @tparam T 
-     * @tparam U 
-     */
-    template< typename T, typename U >
+    template< class _Tp, class U >
     inline
     constexpr
     bool linear_unusable_as_v =
-        !(std::is_constructible_v<T, U> ||
-        std::is_assignable_v<T&, U> ||
-        std::is_convertible_v<T, U>);
+        !(std::is_constructible_v<_Tp, U> ||
+        std::is_assignable_v<_Tp&, U> ||
+        std::is_convertible_v<_Tp, U>);
 
     /**
      * @brief Wrapper object around a linear type
@@ -133,31 +121,80 @@ namespace eop
     /**
      * @brief Concept for semiregular types
      * 
-     * semiregular = constructible + destructible
-     * + copy_constructible + copy_assignable + move_constructible
-     * + move_assignable
+     * semiregular = default constructible && destructible
+     * && copy_constructible && copy_assignable &&
+     * move_constructible && move_assignable
      * 
      */
     #define semiregular typename
+    template< class _Tp >
+    inline
+    constexpr
+    bool is_semiregular_v =
+        std::is_default_constructible_v<_Tp>
+        && std::is_destructible_v<_Tp>
+        && std::is_copy_constructible_v<_Tp>
+        && std::is_copy_assignable_v<_Tp>
+        && std::is_move_constructible_v<_Tp>
+        && std::is_move_assignable_v<_Tp>
+        && std::is_swappable_v<_Tp>;
 
     /**
      * @brief Concept for types with an
-     * equality semantic
+     * equality comparability semantic
      * 
      */
     #define equality typename
+    template< class _Tp, class=void >
+    struct is_equality_comparable : std::false_type{};
+    template< class _Tp>
+    struct is_equality_comparable<_Tp,
+        typename std::enable_if<
+            true,
+            decltype(std::declval<_Tp&>() == std::declval<_Tp&>(),
+                (void)0)>::type
+            > : std::true_type {};
     
+    template< class _Tp >
+    inline
+    constexpr
+    bool is_equality_comparable_v =
+        eop::is_equality_comparable<_Tp>::value;
+
     /**
      * @brief Concept for regular types
      * 
-     * regular = semiregular + equality
+     * regular = semiregular && equality
      * 
      */
     #define regular typename
+    template< class _Tp >
+    bool is_regular_v =
+        eop::is_semiregular_v<_Tp>
+        && eop::is_equality_comparable_v<_Tp>;
 
     /**
-     * @brief Operations and (homogeneous) predicates
-     * of specified or general arity
+     * @brief Concepts for functional procedures and 
+     * their input and output objects
+     * 
+     */
+    #define functional_procedure typename
+    template< functional_procedure F, const unsigned I >
+    struct input {};
+
+    template< functional_procedure F >
+    struct output {};
+    
+    /**
+     * @brief Concepts for operations and
+     * (homogeneous) predicates of specified
+     * or general arity
+     * 
+     * n_ary_predicate = functional_procedure
+     * && codomain(functional_procedure) = bool
+     * 
+     * n_ary_operation = functional_procedure
+     * && codomain(functional_procedure) =
      * 
      */
     #define nullary_operation typename
@@ -168,6 +205,34 @@ namespace eop
     #define binary_predicate typename
     #define n_ary_operation typename
     #define n_ary_predicate typename
+
+    /**
+     * @brief Concept for transformations
+     * 
+     * transformation = n_ary_operation
+     * || n_ary_predicate
+     * 
+     */
+    #define transformation typename
+    template< transformation F >
+    struct distance {};
+    template<>
+    struct distance<int>
+    {
+        using type = unsigned int;
+    };
+    template<>
+    struct distance<long long>
+    {
+        using type = unsigned long long;
+    };
+
+    /**
+     * @brief Concept for types on which
+     * arithmetic can be performed
+     * 
+     */
+    #define arithmetic typename
 
     /**
      * @brief Models for data structures,
@@ -187,6 +252,7 @@ namespace eop
      * @brief Aliases for types
      * 
      * @tparam C A container
+     * @tparam F A functional procedure
      * @tparam I An iterator
      */
     template< container C >
@@ -195,6 +261,18 @@ namespace eop
     template< container C >
     using value_type = typename C::value_type;
     
+    template< functional_procedure F, const unsigned I >
+    using input_type = typename input<F, I>::type;
+    
+    template< functional_procedure F >
+    using domain = input_type<F, 0>;
+
+    template< functional_procedure F >
+    using codomain = typename output<F>::type;
+
+    template< transformation F >
+    using distance_type = typename distance<F>::type;
+
     template< iterator I >
     using iterator_value_type = typename std::iterator_traits<I>::value_type;
 
