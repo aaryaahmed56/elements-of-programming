@@ -5,8 +5,11 @@
 \begin{solution}
     $\mathtt{euclidean\_norm(x, y, z)}$ is a ternary operation with the signature
     $$\mathtt{euclidean\_norm :: T \times T \times T \rightarrow T}$$
-    where $\mathtt{T}$ is an arithmetic type, e.g. $\mathtt{T}$ is either an integral or floating
-    point type. After currying, the signature becomes
+    where $\mathtt{T}$ is an \textit{arithmetic type} (viz. a type on which arithmetic operations such as
+    $\mathtt{+, *, \sqrt{.}}$ can be performed, e.g. unary and binary functions whose domains and codomains
+    are integral or floating-point types, though not always operations: $\mathtt{\sqrt{.}}$ could possibly
+    map an element from a domain of integral type to an element in a codomain of floating-point type). After
+    currying, the signature becomes
     $$\mathtt{euclidean\_norm :: T \rightarrow T \rightarrow T \rightarrow T}$$
     which clearly associates to
     $$\mathtt{euclidean\_norm :: T \rightarrow \left(T \rightarrow T \rightarrow T\right)}$$

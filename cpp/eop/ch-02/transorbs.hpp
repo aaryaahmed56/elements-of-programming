@@ -72,7 +72,8 @@ namespace eop
      * @return eop::domain<F> 
      */
     template< transformation F, arithmetic N >
-    eop::domain<F> power_unary(eop::domain<F> x, N n, F f)
+    constexpr
+    eop::domain<F> power_unary(eop::domain<F> x, N n, F f) noexcept
     {
         static_assert(std::is_arithmetic_v<N>);
         while (n != N(0))
@@ -84,8 +85,9 @@ namespace eop
     }
 
     template< transformation F >
+    constexpr
     eop::distance_type<F> orbit_distance(eop::domain<F> x, eop::domain<F> y,
-        F f)
+        F f) noexcept
     {
         using N = eop::distance_type<F>;
         N n(0);
