@@ -169,6 +169,8 @@ namespace eop
      */
     #define regular typename
     template< class _Tp >
+    inline
+    constexpr
     bool is_regular_v =
         eop::is_semiregular_v<_Tp>
         && eop::is_equality_comparable_v<_Tp>;

@@ -60,7 +60,7 @@ namespace eop
     };
 
     /**
-     * @brief Computing the n-th iterate of a transformation
+     * @brief Computes the n-th iterate of a transformation
      * applied to some domain element
      * 
      * @tparam F A type for transformation,like a homogeneous
