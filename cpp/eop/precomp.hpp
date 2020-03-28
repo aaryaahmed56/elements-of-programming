@@ -10,6 +10,6 @@
 #include <memory>
 #include <utility>
 #include <vector>
-#include <cstdlib>
+#include <cstddef>
 
 #endif // !EOP_PRECOMP_H
