@@ -25,6 +25,12 @@ namespace eop
      * 
      */
     #define partially_formed typename
+    template< class _Tp >
+    inline
+    constexpr
+    bool is_partially_formed_v =
+        std::is_move_assignable_v<_Tp>
+        && std::is_destructible_v<_Tp>;
     
     /**
      * @brief Concept for an object type of
@@ -34,17 +40,6 @@ namespace eop
      * 
      */
     #define well_formed typename
-
-    /**
-     * @brief Concept for linear/substructural types
-     * 
-     * linear = move_constructible + move_assignable
-     * 
-     * A unique pointer is "almost" a linear type in 
-     * that it is move assignable but not copy assignable.
-     * 
-     */
-    #define linear typename
     
     /**
      * @brief Naive implementation for nothrow
@@ -83,6 +78,35 @@ namespace eop
         !(std::is_constructible_v<_Tp, U> ||
         std::is_assignable_v<_Tp&, U> ||
         std::is_convertible_v<_Tp, U>);
+    
+    /**
+     * @brief Concept for linear/substructural types
+     * 
+     * std::unique_ptr<T> is "almost" a linear type in 
+     * that it is move assignable but not copy assignable or
+     * constructible, and uniquely (viz. exactly once) owns
+     * and manages an object via a pointer and disposes of it
+     * when std::unique_ptr<T> goes out of scope, and may be
+     * constructed via checking this linearity concept constraint
+     * at compile time.
+     * 
+     * linear ptr = std::make_unique<T>() // VALID
+     * 
+     * However, attempting to de-reference an invalidated
+     * std::unique_ptr<T> leads to undefined run-time behavior.
+     * 
+     */
+    #define linear typename
+    template< class _Tp >
+    inline
+    constexpr
+    bool is_linear_v =
+        std::is_nothrow_destructible_v<_Tp>
+        && eop::linear_usable_as_v<_Tp, _Tp>
+        && eop::linear_usable_as_v<_Tp, _Tp&&>
+        && eop::linear_unusable_as_v<_Tp, _Tp&>
+        && eop::linear_unusable_as_v<_Tp, const _Tp&>
+        && eop::linear_unusable_as_v<_Tp, const _Tp>;
 
     /**
      * @brief Wrapper object around a linear type
@@ -98,7 +122,6 @@ namespace eop
     public:
         linear_wrapper(T&& value) : _val(std::move(value)) {}
 
-        // Remove copy construction and assignment
         linear_wrapper(const linear_wrapper&) = delete;
         linear_wrapper &operator=(const linear_wrapper&) = delete;
 
