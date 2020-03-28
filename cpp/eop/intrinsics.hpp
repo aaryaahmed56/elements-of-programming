@@ -128,6 +128,7 @@ namespace eop
     template< partially_formed _Tp >
     eop::raw_ptr<_Tp> ptr_construct(_Tp&& x)
     {
+        static_assert(eop::is_partially_formed_v<_Tp>);
         return &x;
     }
 
@@ -144,6 +145,7 @@ namespace eop
     template< partially_formed _Tp, partially_formed... Args >
     std::unique_ptr<_Tp> ptr_construct(Args&&... args)
     {
+        static_assert(eop::is_partially_formed_v<_Tp>);
         return std::unique_ptr<_Tp>(construct(_Tp(std::forward<Args>(args)...)));
     }
 
@@ -160,6 +162,7 @@ namespace eop
     template< partially_formed _Tp, partially_formed... Args >
     std::shared_ptr<_Tp> ptr_construct(Args&&... args)
     {
+        static_assert(eop::is_partially_formed_v<_Tp>);
         return std::shared_ptr<_Tp>(construct(_Tp(std::forward<Args>(args)...)));
     }
 } // namespace eop
