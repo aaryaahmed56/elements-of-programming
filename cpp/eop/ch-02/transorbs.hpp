@@ -58,15 +58,32 @@ namespace eop
             return sqrt(squared_distance(x0, x1));
         }
     };
+    /**
+     * @brief (Lemma 2.1) Specialization of L2 norm as a
+     * ternary operation, making use of applications of the
+     * binary specialization
+     * 
+     * @tparam _Tp An arithmetic type
+     */
+    template< arithmetic _Tp >
+    struct euclidean_norm<_Tp, 3>
+    {
+        inline
+        _Tp operator()(const _Tp& x0, const _Tp& x1, const _Tp& x2) const noexcept
+        {
+            return eop::euclidean_norm<_Tp, 2>(eop::euclidean_norm<_Tp, 2>(x0,
+                x1), x2);
+        }
+    };
 
     /**
      * @brief Computes the n-th iterate of a transformation
      * applied to some domain element
      * 
-     * @tparam F A type for transformation,like a homogeneous
+     * @tparam F A type for transformation, like a homogeneous
      * predicate or operation type
      * @tparam N An arithmetic type
-     * @param x An element of the domain of F
+     * @param x An element of the domain of f
      * @param n The iterate number
      * @param f Some transformation
      * @return eop::domain<F> 
@@ -84,6 +101,17 @@ namespace eop
         return x;
     }
 
+    /**
+     * @brief Computes the minimal number of steps to transform
+     * a domain element of a transformation to another one
+     * 
+     * @tparam F A type for transformation, like a homogeneous
+     * predicate or operation type
+     * @param x An element of the domain of f
+     * @param y Another element of the domain of f
+     * @param f Some transformation
+     * @return constexpr eop::distance_type<F> 
+     */
     template< transformation F >
     constexpr
     eop::distance_type<F> orbit_distance(eop::domain<F> x, eop::domain<F> y,
