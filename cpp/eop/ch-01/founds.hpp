@@ -71,6 +71,7 @@ namespace eop
      * @tparam Args Other types with an equality semantic
      */
     template< equality_comparable _Tp0,
+              const unsigned arity,
               equality_comparable _Tp1 = _Tp0,
               equality_comparable... Args >
     struct equal
@@ -109,7 +110,7 @@ namespace eop
      * @tparam _Tp A type with an equality semantic
      */
     template< equality_comparable _Tp >
-    struct equal<_Tp>
+    struct equal<_Tp, 2>
     {
         inline
         bool operator()(const _Tp& x, const _Tp& y) const noexcept
