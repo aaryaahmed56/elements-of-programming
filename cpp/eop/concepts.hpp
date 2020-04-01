@@ -303,6 +303,9 @@ namespace eop
 
     template< iterator I >
     using iterator_difference_type = typename std::iterator_traits<I>::difference_type;
+
+    template< iterator I >
+    using iterator_category = typename std::iterator_traits<I>::iterator_category;
 } // namespace eop
 
 #endif // !EOP_CONCEPTS_HPP
