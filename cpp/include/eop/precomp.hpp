@@ -1,5 +1,5 @@
-#ifndef EOP_PRECOMP_H
-#define EOP_PRECOMP_H
+#ifndef EOP_PRECOMP_HPP
+#define EOP_PRECOMP_HPP
 
 // #include <concepts> -- When it's here.
 #include <new>
@@ -12,4 +12,4 @@
 #include <vector>
 #include <cstddef>
 
-#endif // !EOP_PRECOMP_H
+#endif // !EOP_PRECOMP_HPP

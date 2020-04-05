@@ -1,5 +1,5 @@
-#ifndef EOP_INTRINSICS_H
-#define EOP_INTRINSICS_H
+#ifndef EOP_INTRINSICS_HPP
+#define EOP_INTRINSICS_HPP
 
 #include "concepts.hpp"
 
@@ -122,8 +122,8 @@ namespace eop
      * @brief Address method to construct a raw
      * pointer from a memory location
      * 
-     * @tparam _Tp A partially formed object type from 
-     * which a pointer type is constructed
+     * @tparam _Tp An object type for a partially formed object
+     * from which a pointer type is constructed
      */
     template< partially_formed _Tp >
     eop::raw_ptr<_Tp> ptr_construct(_Tp&& x)
@@ -136,8 +136,8 @@ namespace eop
      * @brief Forwarding method to construct a unique
      * pointer
      * 
-     * @tparam _Tp An arbitrary type from which a unique
-     * pointer is constructed
+     * @tparam _Tp An object type for a partially formed object
+     * from which a unique pointer is constructed
      * @tparam Args Argument types
      * @param args Arguments
      * @return std::unique_ptr<_Tp> 
@@ -153,8 +153,8 @@ namespace eop
      * @brief Forwarding method to construct a shared
      * pointer
      * 
-     * @tparam _Tp An arbitrary type from which a shared
-     * pointer is constructed
+     * @tparam _Tp An object type for a partially formed object from
+     * which a shared pointer is constructed
      * @tparam Args Argument types
      * @param args Arguments
      * @return std::shared_ptr<_Tp> 
@@ -167,4 +167,4 @@ namespace eop
     }
 } // namespace eop
 
-#endif // !EOP_PRECOMP_H
+#endif // !EOP_IMTRINSICS_HPP
